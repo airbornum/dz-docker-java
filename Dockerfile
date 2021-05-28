@@ -1,3 +1,4 @@
+MAINTAINER Yevhen Khadzhamov
 FROM ubuntu:20.04
 RUN apt update
 RUN apt install openjdk-8-jdk -y
