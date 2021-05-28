@@ -1,8 +1,13 @@
-FROM ubuntu:20.04
+FROM ubuntu:20.04 AS build
 RUN apt update
 RUN apt install openjdk-8-jdk -y
 RUN apt install maven git -y
-RUN git clone https://gitlab.com/nanuchi/java-maven-app.git
-WORKDIR ./java-maven-app
+RUN git clone https://github.com/boxfuse/boxfuse-sample-java-war-hello.git
+WORKDIR ./boxfuse-sample-java-war-hello
 RUN mvn package
-ENTRYPOINT ["java", "-jar", "target/java-maven-app-1.1.0-SNAPSHOT.jar"]
+
+FROM tomcat:9-jre11
+RUN rm -rf /usr/local/tomcat/webapps/*
+COPY --from=build boxfuse-sample-java-war-hello/target/hello-1.0.war /usr/local/tomcat/webapps/ROOT.war
+EXPOSE 8080
+CMD ["catalina.sh", "run"]
