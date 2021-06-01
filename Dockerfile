@@ -1,12 +1,11 @@
-FROM ubuntu:20.04 AS build
+#FROM maven:3.6
+FROM ubuntu:20.04
 ENV TZ=Europe/Kiev
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 RUN apt update
 RUN apt install openjdk-8-jdk maven git -y
+WORKDIR /app
 RUN git clone https://github.com/boxfuse/boxfuse-sample-java-war-hello.git
-WORKDIR ./boxfuse-sample-java-war-hello
+WORKDIR /app/boxfuse-sample-java-war-hello
 RUN mvn package
-
-FROM tomcat:9-jre11
-RUN rm -rf /usr/local/tomcat/webapps/*
-COPY --from=build boxfuse-sample-java-war-hello/target/hello-1.0.war /usr/local/tomcat/webapps/ROOT.war
+RUN mv target/hello-1.0.war ROOT.war

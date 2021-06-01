@@ -1,11 +1,17 @@
 version: '3'
-services:
-    app:
-      build: .
-      volumes:
-          - artifacts:/usr/local/tomcat/webapps
-      ports:
-          - 80:8080
 
 volumes:
-  artifacts:
+   java_app_artifacts:
+
+services:
+    builder:
+      build: .
+      volumes:
+          - java_app_artifacts:/app/boxfuse-sample-java-war-hello/target
+
+    tomcat:
+      image: tomcat:9-alpine
+      volumes:
+          - java_app_artifacts:/usr/local/tomcat/webapps
+      ports:
+          - 80:8080
