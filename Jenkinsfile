@@ -18,13 +18,23 @@ pipeline {
                 }
             }
         }
-        stage('deploy') {
+        stage('push') {
             steps {
                 script {
-                    echo "Deploying the application..."
+                    echo "Push the application..."
                     sh "docker push airbornum/java-app-docker:latest"
                 }
             }
         }
+        stage('deploy') {
+            steps {
+                script {
+                    echo "Run the application..."
+                    sh "docker run -d -it -p 8888:8080/tcp --name java-app-docker airbornum/java-app-docker:latest"
+                }
+            }
+        }
+
+
     }
 }
