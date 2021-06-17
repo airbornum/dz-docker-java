@@ -14,7 +14,7 @@ pipeline {
             steps {
                 script {
                     echo "Building the application..."
-                    sh "docker build -t airbornum/java-app-docker:latest .
+                    sh "docker build -t airbornum/java-app-docker:latest ."
                 }
             }
         }
