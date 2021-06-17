@@ -1,13 +1,28 @@
+#!/usr/bin/env groovy
+
 pipeline {
     agent any
-
     stages {
-
-    stage('Build image') {
-        sh "docker build -t airbornum/java-app-docker:latest ."
+        stage('test') {
+            steps {
+                script {
+                    echo "Testing the application..."
+                }
+            }
+        }
+        stage('build') {
+            steps {
+                script {
+                    echo "Building the application..."
+                }
+            }
+        }
+        stage('deploy') {
+            steps {
+                script {
+                    echo "Deploying the application..."
+                }
+            }
+        }
     }
-    stage('Push image') {
-        sh "docker push airbornum/java-app-docker:latest"
-  }
- } 
 }
